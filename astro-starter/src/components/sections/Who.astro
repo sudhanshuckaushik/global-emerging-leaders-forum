@@ -1,0 +1,30 @@
+---
+import SectionHeader from "../SectionHeader.astro";
+import { site } from "../../data/site";
+const { who } = site;
+---
+
+<section class="section container who" id="who">
+  <SectionHeader eyebrow={who.tag} title={who.title} lead={who.lead} />
+  <div class="who-grid">
+    {who.cards.map((c) => (
+      <article class="who-card reveal">
+        <span class="who-icon">{c.icon}</span>
+        <h3 class="who-title">{c.title}</h3>
+        <p class="who-desc">{c.desc}</p>
+        <p class="who-eg t-designation">{c.eg}</p>
+      </article>
+    ))}
+  </div>
+</section>
+
+<style>
+  .who-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; margin-top: 1rem; background: var(--line); border: 1px solid var(--line); }
+  .who-card { background: var(--bg); padding: 2.25rem 2rem; display: flex; flex-direction: column; gap: 0.6rem; transition: background 0.25s var(--ease-brand); }
+  .who-card:hover { background: var(--bg-elev); }
+  .who-icon { font-size: 1.6rem; }
+  .who-title { font-family: var(--font-ui); font-weight: 800; font-size: 1.25rem; color: var(--c-name); }
+  .who-desc { color: var(--text-mute); font-size: 1rem; line-height: 1.65; flex: 1; }
+  .who-eg { font-size: 0.6rem; line-height: 1.5; margin-top: 0.5rem; }
+  @media (max-width: 760px) { .who-grid { grid-template-columns: 1fr; } }
+</style>

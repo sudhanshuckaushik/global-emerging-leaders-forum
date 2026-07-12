@@ -1,0 +1,347 @@
+[
+  {
+    "id": "screenshot-settings",
+    "name": "screenshot settings",
+    "params": {
+      "type": "linear",
+      "animationMode": "linear",
+      "bezierCurve": [
+        0.25,
+        0.1,
+        0.25,
+        1
+      ],
+      "speed": 2,
+      "scale": 1.2,
+      "angle": 90,
+      "color1": "#0c0c0c",
+      "color2": "#c8ff00",
+      "stop1": 0,
+      "stop2": 1,
+      "centerX": 0.5,
+      "centerY": 0.5
+    }
+  },
+  {
+    "id": "radial-sunrise",
+    "name": "radial sunrise",
+    "params": {
+      "type": "radial",
+      "animationMode": "linear",
+      "bezierCurve": [
+        0.25,
+        0.1,
+        0.25,
+        1
+      ],
+      "speed": 2,
+      "scale": 1.8,
+      "angle": 90,
+      "color1": "#ff007f",
+      "color2": "#ffaa00",
+      "stop1": 0.1,
+      "stop2": 0.9,
+      "centerX": 0.5,
+      "centerY": 0.5
+    }
+  },
+  {
+    "id": "blue-amber-radial-fast",
+    "name": "blue amber radial fast",
+    "params": {
+      "type": "radial",
+      "animationMode": "bezier",
+      "bezierCurve": [
+        0.6,
+        0.19,
+        0.68,
+        0.92
+      ],
+      "speed": 3,
+      "scale": 1.3,
+      "angle": 90,
+      "color1": "#3352ff",
+      "color2": "#ffb51b",
+      "stop1": 0,
+      "stop2": 1,
+      "centerX": 0.5,
+      "centerY": 0.5
+    }
+  },
+  {
+    "id": "blue-amber-linear",
+    "name": "blue amber linear",
+    "params": {
+      "type": "linear",
+      "animationMode": "linear",
+      "bezierCurve": [
+        0.25,
+        0.1,
+        0.25,
+        1
+      ],
+      "speed": 1,
+      "scale": 1,
+      "angle": 90,
+      "color1": "#3352ff",
+      "color2": "#ffb51b",
+      "stop1": 0,
+      "stop2": 1,
+      "centerX": 0.5,
+      "centerY": 0.5
+    }
+  },
+  {
+    "id": "blue-amber-linear-sweep",
+    "name": "blue amber linear sweep",
+    "params": {
+      "type": "linear",
+      "animationMode": "bezier",
+      "bezierCurve": [
+        0.06,
+        0.28,
+        0.89,
+        0.38
+      ],
+      "speed": 4,
+      "scale": 1.7,
+      "angle": 0,
+      "color1": "#3352ff",
+      "color2": "#ffb51b",
+      "stop1": 0,
+      "stop2": 1,
+      "centerX": 0.5,
+      "centerY": 0.5
+    }
+  },
+  {
+    "id": "amber-pink-radial",
+    "name": "amber pink radial",
+    "params": {
+      "type": "radial",
+      "animationMode": "bezier",
+      "bezierCurve": [
+        0.06,
+        0.28,
+        0.89,
+        0.38
+      ],
+      "speed": 4,
+      "scale": 1.7,
+      "angle": 0,
+      "color1": "#ffb533",
+      "color2": "#ff63d2",
+      "stop1": 0,
+      "stop2": 1,
+      "centerX": 0,
+      "centerY": 0.5
+    }
+  },
+  {
+    "id": "blue-amber-radial-sweep",
+    "name": "blue amber radial sweep",
+    "params": {
+      "type": "radial",
+      "animationMode": "bezier",
+      "bezierCurve": [
+        0.06,
+        0.28,
+        0.89,
+        0.38
+      ],
+      "speed": 4,
+      "scale": 1.7,
+      "angle": 0,
+      "color1": "#3352ff",
+      "color2": "#ffb51b",
+      "stop1": 0,
+      "stop2": 1,
+      "centerX": 0,
+      "centerY": 0.5
+    }
+  },
+  {
+    "id": "preset-2",
+    "name": "preset 2",
+    "params": {
+      "type": "radial",
+      "animationMode": "bezier",
+      "bezierCurve": [
+        0.37,
+        0.13,
+        0.35,
+        0.75
+      ],
+      "speed": 4,
+      "scale": 1.3,
+      "angle": 0,
+      "color1": "#f2e8d7",
+      "color2": "#ff63d2",
+      "stop1": 0,
+      "stop2": 1,
+      "centerX": 0,
+      "centerY": 0.5
+    }
+  },
+  {
+    "id": "preset-3",
+    "name": "preset 3",
+    "params": {
+      "type": "radial",
+      "animationMode": "bezier",
+      "bezierCurve": [
+        0.06,
+        0.28,
+        0.89,
+        0.38
+      ],
+      "speed": 4,
+      "scale": 0.9,
+      "angle": 0,
+      "color1": "#ed3a1a",
+      "color2": "#261e26",
+      "stop1": 0,
+      "stop2": 1,
+      "centerX": 0,
+      "centerY": 0.5
+    }
+  },
+  {
+    "id": "preset-4",
+    "name": "preset 4",
+    "params": {
+      "type": "radial",
+      "animationMode": "bezier",
+      "bezierCurve": [
+        0.37,
+        0.13,
+        0.35,
+        0.75
+      ],
+      "speed": 2,
+      "scale": 1.9,
+      "angle": 90,
+      "color1": "#b9c3fe",
+      "color2": "#0137ff",
+      "stop1": 0,
+      "stop2": 1,
+      "centerX": 0.5,
+      "centerY": 0
+    }
+  },
+  {
+    "id": "preset-5",
+    "name": "preset 5",
+    "params": {
+      "type": "linear",
+      "animationMode": "linear",
+      "bezierCurve": [
+        0.25,
+        0.1,
+        0.25,
+        1
+      ],
+      "speed": 2,
+      "scale": 1.2,
+      "angle": 90,
+      "color1": "#660036",
+      "color2": "#c8ff00",
+      "stop1": 0,
+      "stop2": 1,
+      "centerX": 0.5,
+      "centerY": 0.5
+    }
+  },
+  {
+    "id": "preset-6",
+    "name": "preset 6",
+    "params": {
+      "type": "linear",
+      "animationMode": "bezier",
+      "bezierCurve": [
+        0.06,
+        0.28,
+        0.89,
+        0.38
+      ],
+      "speed": 3,
+      "scale": 1.8,
+      "angle": 90,
+      "color1": "#660036",
+      "color2": "#ff3a33",
+      "stop1": 0,
+      "stop2": 1,
+      "centerX": 0.5,
+      "centerY": 0.5
+    }
+  },
+  {
+    "id": "preset-7",
+    "name": "preset 7",
+    "params": {
+      "type": "radial",
+      "animationMode": "bezier",
+      "bezierCurve": [
+        0.6,
+        0.19,
+        0.68,
+        0.92
+      ],
+      "speed": 4,
+      "scale": 2,
+      "angle": 90,
+      "color1": "#ff309e",
+      "color2": "#ff3a33",
+      "stop1": 0,
+      "stop2": 1,
+      "centerX": 0,
+      "centerY": 0.5
+    }
+  },
+  {
+    "id": "preset-8",
+    "name": "preset 8",
+    "params": {
+      "type": "radial",
+      "animationMode": "bezier",
+      "bezierCurve": [
+        0.6,
+        0.19,
+        0.68,
+        0.92
+      ],
+      "speed": 4,
+      "scale": 2,
+      "angle": 90,
+      "color1": "#e7f7ff",
+      "color2": "#82ffa6",
+      "stop1": 0,
+      "stop2": 1,
+      "centerX": 0.5,
+      "centerY": 1
+    }
+  },
+  {
+    "id": "preset-9",
+    "name": "preset 9",
+    "params": {
+      "type": "linear",
+      "animationMode": "bezier",
+      "bezierCurve": [
+        0.06,
+        0.28,
+        0.89,
+        0.38
+      ],
+      "speed": 4,
+      "scale": 1.7,
+      "angle": 0,
+      "color1": "#3352ff",
+      "color2": "#d0cfff",
+      "stop1": 0,
+      "stop2": 1,
+      "centerX": 0.5,
+      "centerY": 0.5
+    }
+  }
+]

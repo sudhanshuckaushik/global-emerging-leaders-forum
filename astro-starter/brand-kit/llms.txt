@@ -1,0 +1,50 @@
+# Global Emerging Leaders Forum 2026 — Brand Identity & Design System Kit
+
+This is a developer-and-LLM-oriented brand guide for the Global Emerging Leaders Forum 2026.
+Location: Goa, India
+Dates: July 27–30, 2026
+Partners: CYP (Commonwealth Youth Programme), KAS (Konrad-Adenauer-Stiftung), Fathom
+
+This directory contains the precise, derived tokens, shader templates, and utility code to integrate the brand system into any web application or visual rendering engine.
+
+## File Map of the Kit
+
+- `tokens.json`: The single source of truth containing all mathematical dimensions, typography specs, color rules, and animation curves.
+- `FONTS.md`: Licensing, font stack details, and typography geometry constraints.
+- `shaders/image-gradient.frag`: WebGL2 fragment shader for the card + image slots.
+- `shaders/linear-gradient.frag`: WebGL2 fragment shader for plain background gradients.
+- `code/color.ts`: CPU logic for the analogous duotone map generation.
+- `code/bezier.ts`: Easing solver.
+- `code/renderer-notes.md`: Detailed WebGL uniform maps and integration instructions.
+- `presets/gradient-presets.json`: Saved gradient combinations (colors, speeds, centers, angles).
+- `assets/logos/`: Partner SVG assets.
+
+## The Design System: Sacred vs. Adaptable Rules
+
+When implementing this brand system on websites, landing pages, or digital overlays, respect this boundary between strict brand rules and layout flexibility:
+
+### 1. Sacred Rules (Must Be Followed Verbatim)
+- **Duotone Image Treatment**: Images must NEVER be shown in raw color. They must pass through the `deriveDuotone()` rule in `code/color.ts`. The duotone map's colors are derived dynamically from the background gradient's colors (hue shifted by -48°).
+- **Typography Pairings**:
+  - Main titles/names: **Ruder Plakat Tall 900** (heavy, uppercase, tall condensed).
+  - Sub-headings/metadata: **Plus Jakarta Sans 800** (extra-bold, tracked).
+  - Forum Label: **Ruder Plakat** in Red (`#F53733`).
+- **Color Constants**:
+  - Name Color: `#C9CBFF` (Pale blue/purple tint)
+  - Designation Color: `#00E5FF` (Cyan)
+  - Forum Label Color: `#F53733` (Red)
+- **Dithering & Wave Physics**: Background gradients should have subtle dithering noise added (`0.015` amplitude) to eliminate 8-bit banding, and animate using a triangle wave eased by a sine function.
+
+### 2. Adaptable Rules (Can Be Adjusted for Web Layouts)
+- **Card geometry**: The 777×443 card box layout is designed for personal badge-style cards/images. It should not be forced upon entire webpage containers.
+- **Font-sizes**: While the typography ratios (line-height, letter-spacing) must remain locked to preserve the brand's aesthetic, the absolute size of fonts (`20px` for designation, etc.) can scale with the screen layout.
+- **Gradients**: You can select any gradient preset from `presets/gradient-presets.json` or create new ones that respect the duotone mapping function.
+
+## How to Treat Images (The Duotone Recipe)
+
+For any image rendering (Canvas 2D, CSS filters, WebGL, SVG filter):
+1. Compute HSL values for the two main gradient colors of the container/card.
+2. Calculate the analogous hue by taking the average hue and shifting it by `-48°`.
+3. Set the light stop to that shifted hue, saturation = `79%`, lightness = `67%` (subject to adaptive lightness rules).
+4. Set the dark stop to that shifted hue, saturation = `84%`, lightness = `10%` (subject to adaptive lightness rules).
+5. Map the grayscale luminance of the target image so that shadows map to the dark stop and highlights map to the light stop.

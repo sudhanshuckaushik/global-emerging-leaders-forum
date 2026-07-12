@@ -1,0 +1,35 @@
+---
+import GradientBackground from "../GradientBackground.astro";
+import SectionHeader from "../SectionHeader.astro";
+import { site } from "../../data/site";
+const { themes } = site;
+---
+
+<section class="section themes" id="themes">
+  <!-- WARM feature moment: preset-6 (#660036 → #FF3A33) -->
+  <GradientBackground type="linear" color1="#660036" color2="#FF3A33" speed={3} scale={1.8} angle={90} class="themes-bg" />
+  <div class="container themes-inner">
+    <SectionHeader eyebrow={themes.tag} title={themes.title} lead={themes.lead} />
+    <div class="themes-grid">
+      {themes.items.map((t) => (
+        <article class="theme reveal">
+          <h3 class="theme-title">{t.title}</h3>
+          <p class="theme-body">{t.body}</p>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .themes { position: relative; isolation: isolate; overflow: hidden; }
+  .themes :global(.themes-bg) { opacity: 0.5; }
+  .themes::after { content: ""; position: absolute; inset: 0; z-index: 1; background: radial-gradient(120% 80% at 50% 0%, rgba(7,7,15,0.62), rgba(7,7,15,0.9)); }
+  .themes-inner { position: relative; z-index: 2; }
+  .themes-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; margin-top: 1rem; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.1); }
+  .theme { background: rgba(7,7,15,0.55); backdrop-filter: blur(4px); padding: 2.25rem 1.75rem; display: flex; flex-direction: column; gap: 0.75rem; transition: background 0.25s var(--ease-brand); }
+  .theme:hover { background: rgba(7,7,15,0.3); }
+  .theme-title { font-family: var(--font-ui); font-weight: 800; font-size: 1.2rem; color: #fff; line-height: 1.2; }
+  .theme-body { color: rgba(255,255,255,0.72); font-size: 0.98rem; line-height: 1.6; }
+  @media (max-width: 820px) { .themes-grid { grid-template-columns: 1fr; } }
+</style>

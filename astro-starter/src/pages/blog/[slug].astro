@@ -1,0 +1,48 @@
+---
+import { getCollection, type CollectionEntry } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+// Static generation: one HTML page per post, built at deploy time.
+export async function getStaticPaths() {
+  const posts = await getCollection("blog", ({ data }) => !data.draft);
+  return posts.map((post) => ({ params: { slug: post.slug }, props: { post } }));
+}
+
+type Props = { post: CollectionEntry<"blog"> };
+const { post } = Astro.props;
+const { Content } = await post.render();
+---
+
+<BaseLayout title={`${post.data.title} · Forum Journal`} description={post.data.description}>
+  <article class="section container">
+    <a class="back t-designation" href="/blog">← Journal</a>
+    <p class="meta t-designation">
+      {post.data.date.toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })} · {post.data.author}
+    </p>
+    <h1 class="t-headline title">{post.data.title}</h1>
+    <p class="lede">{post.data.description}</p>
+    <div class="prose">
+      <Content />
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  article { max-width: 46rem; padding-block: 8rem 6rem; }
+  .back { display: inline-block; font-size: 0.72rem; letter-spacing: 0.1em; margin-bottom: 2.5rem; }
+  .meta { font-size: 0.72rem; letter-spacing: 0.08em; }
+  .title { font-size: clamp(2.2rem, 5.5vw, 4rem); margin: 0.75rem 0 1.25rem; }
+  .lede { color: var(--text); font-size: 1.3rem; line-height: 1.6; margin-bottom: 3rem; }
+  .prose { color: var(--text-mute); font-size: 1.1rem; line-height: 1.8; }
+  .prose :global(h2) { font-family: var(--font-ui); font-weight: 800; color: var(--c-name); font-size: 1.6rem; margin: 2.5rem 0 1rem; }
+  .prose :global(p) { margin-bottom: 1.5rem; }
+  .prose :global(a) { color: var(--c-designation); text-decoration: underline; text-underline-offset: 3px; }
+  .prose :global(ul) { margin: 0 0 1.5rem 1.25rem; }
+  .prose :global(li) { margin-bottom: 0.5rem; }
+  .prose :global(strong) { color: var(--text); }
+  .prose :global(blockquote) {
+    border-left: 2px solid var(--c-forum);
+    padding-left: 1.5rem; margin: 2rem 0;
+    color: var(--c-name); font-size: 1.35rem; line-height: 1.5;
+  }
+</style>

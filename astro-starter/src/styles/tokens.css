@@ -1,0 +1,55 @@
+/* =====================================================================
+   DESIGN TOKENS  —  derived from  brand-kit/tokens.json
+   ---------------------------------------------------------------------
+   This is the ONLY file a new client site needs to re-skin.
+   Swap the brand-kit + these values → same components, new identity.
+   Every value here traces back to a rule in brand-kit/tokens.json,
+   brand-kit/FONTS.md, or brand-kit/presets/gradient-presets.json.
+   ===================================================================== */
+
+:root {
+  /* ---- Brand color constants (SACRED — brand-kit/llms.txt §Color Constants) */
+  --c-name:        #C9CBFF; /* participant / hero name — pale blue tint   */
+  --c-designation: #00E5FF; /* sub-heading / metadata — bright cyan       */
+  --c-forum:       #F53733; /* forum lockup label — bright red            */
+
+  /* ---- Signature gradient pair (brand-kit worked example + preset-4) */
+  --g-color1: #B9C3FE;
+  --g-color2: #0137FF;
+
+  /* ---- Derived duotone map for imagery (brand-kit tokens.json workedExample)
+     images must pass through this map — never raw color (SACRED rule).      */
+  --duotone-light: #68EBED;
+  --duotone-dark:  #042E2F;
+
+  /* ---- Surfaces */
+  --bg:        #07070f; /* deep near-black canvas   */
+  --bg-elev:   #0e0e1c; /* elevated cards / nav     */
+  --line:      rgba(201, 203, 255, 0.14);
+  --text:      #e9e9fb;
+  --text-mute: rgba(233, 233, 251, 0.55);
+
+  /* ---- Typography families (brand-kit/FONTS.md)
+     Ruder Plakat is trial-licensed and must NOT be hosted publicly; we ship a
+     tall/condensed heavy fallback (Anton) so unlicensed builds still look right. */
+  --font-display: "Ruder Plakat Tall 900", "Ruder Plakat Trial VIP", "Anton", sans-serif;
+  --font-ui: "Plus Jakarta Sans", system-ui, sans-serif;
+
+  /* ---- Locked typographic ratios (brand-kit/tokens.json → typography)
+     Sizes may scale per layout; these RATIOS are sacred and must not change. */
+  --name-lh: 1.27;   --name-ls: 0.052em;
+  --desg-lh: 1.2;    --desg-ls: 0.04em;   --desg-weight: 800;
+  --forum-lh: 1.32;  --forum-ls: 0.1em;
+  /* Ruder Plakat is used ONLY on big headlines, with line-height 5% tighter
+     than the name ratio (1.27 − 5% = 1.2065) for denser display setting. */
+  --headline-lh: 1.2065;
+
+  /* ---- Motion (brand-kit/tokens.json → animation) */
+  --ease-brand: cubic-bezier(0.25, 0.1, 0.25, 1);
+  --dither: 0.015; /* noise amplitude to kill 8-bit banding */
+
+  /* ---- Layout rhythm */
+  --pad-x: 7vw;
+  --maxw: 1200px;
+  --radius: 5.148%; /* brand-kit geometry.cornerRadiusFraction */
+}

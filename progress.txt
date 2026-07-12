@@ -1,0 +1,74 @@
+GELFD 2026 — PROJECT PROGRESS
+=============================
+Last updated: 2026-07-12
+Branch: astro-starter  (main = original single-file site, untouched)
+
+
+WHAT THIS PROJECT IS
+--------------------
+A reproducible studio system for building visually-similar client sites.
+The GELFD 2026 forum is the first test site. Two things live here:
+
+  main branch          → the original hand-built site: one 3.2 MB index.html
+                         (navy/gold editorial identity, 23 base64 images).
+  astro-starter branch → the reusable Astro template, re-skinned to the
+                         GELFD brand-kit (neon / duotone / animated shaders).
+
+
+ARCHITECTURE (the reproducible part)
+------------------------------------
+Three layers, swap per client, components stay put:
+
+  1. TOKENS   brand-kit/ + src/styles/tokens.css   (derived from tokens.json)
+  2. COMPONENTS  src/components/**                  (reused unchanged)
+  3. CONTENT  src/data/site.ts + src/content/blog/  (the words)
+
+New client = swap brand-kit + tokens.css + site.ts. Bootstrap via `npx degit`.
+
+
+DONE
+----
+[x] Astro static project scaffolded (astro-starter/), builds clean.
+[x] Brand-kit copied in as source of truth (tokens, shaders, presets, logos).
+[x] Design tokens derived from brand-kit/tokens.json → src/styles/tokens.css.
+[x] Animated WebGL gradient component (runs brand-kit linear-gradient.frag).
+    Presets balanced warm/cool across the page:
+      Hero=preset-4 (cool)  Themes=preset-6 (warm)  Outcomes=preset-9 (cool)
+      Contact=amber-pink (warm)
+[x] Duotone imagery (SACRED rule) via SVG feColorMatrix (#68EBED/#042E2F).
+[x] All 11 sections rebuilt from the original, brand-system styled:
+    Hero, About, Why, Mosaic, Who, Themes, Format, Location, Outcomes,
+    Nominate, Contact (+ footer).
+[x] 9 photos extracted from index.html → src/assets/photos/, auto-optimized
+    by Astro to responsive WebP (e.g. 182KB JPG → 29/83/127KB webp x3).
+[x] Partner logos use brand-kit SVGs (CYP, KAS, Fathom).
+[x] Blog: content collection + Zod schema + list/detail pages + 1 sample post.
+[x] Sveltia CMS (git-based, free) at public/admin/ for client blog editing.
+[x] frontend-design skill installed (~/.claude/skills/) and applied:
+    dropped decorative 01–06 numbering where content isn't a real sequence
+    (Themes/Outcomes); kept it where it is (Format = Mon–Thu timeline).
+[x] Typography rule: Ruder Plakat (.t-headline) ONLY on big headlines;
+    everything else Plus Jakarta Sans. Ruder Plakat line-height 5% tighter
+    (--headline-lh 1.2065).
+
+
+NOT DONE / NEXT
+---------------
+[ ] Ruder Plakat is trial-licensed — currently falling back to Anton.
+    Need a licensed font file before production (see brand-kit/FONTS.md).
+[ ] Nominate form is still mailto: (matches original). Swap for a real
+    endpoint (Web3Forms/Formspree) to actually capture submissions.
+[ ] Sveltia config.yml points at placeholder repo "your-studio/gelfd-forum"
+    + needs a GitHub OAuth path before editors can log in.
+[ ] og-image.jpg referenced but not generated.
+[ ] Deploy to Vercel to test the full publish loop (post -> commit -> rebuild).
+[ ] Optional: negative letter-spacing on the largest Anton headlines.
+
+
+RUN IT
+------
+  cd astro-starter
+  npm install
+  npm run dev       # http://localhost:4321
+  npm run build     # static output -> dist/
+  npm run preview   # verify /admin resolves (dev server 404s the bare dir)

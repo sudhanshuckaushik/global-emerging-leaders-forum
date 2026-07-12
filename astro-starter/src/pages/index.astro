@@ -1,0 +1,29 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Hero from "../components/Hero.astro";
+import About from "../components/sections/About.astro";
+import Why from "../components/sections/Why.astro";
+import Mosaic from "../components/sections/Mosaic.astro";
+import Who from "../components/sections/Who.astro";
+import Themes from "../components/sections/Themes.astro";
+import Format from "../components/sections/Format.astro";
+import Location from "../components/sections/Location.astro";
+import Outcomes from "../components/sections/Outcomes.astro";
+import Nominate from "../components/sections/Nominate.astro";
+import Contact from "../components/sections/Contact.astro";
+import { site } from "../data/site";
+---
+
+<BaseLayout title={`${site.name} · 2026`}>
+  <Hero />
+  <About />
+  <Why />
+  <Mosaic />
+  <Who />
+  <Themes />
+  <Format />
+  <Location />
+  <Outcomes />
+  <Nominate />
+  <Contact />
+</BaseLayout>

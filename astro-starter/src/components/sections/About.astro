@@ -1,0 +1,39 @@
+---
+import SectionHeader from "../SectionHeader.astro";
+import { site } from "../../data/site";
+const { about } = site;
+---
+
+<section class="section container about" id="about">
+  <div class="about-body">
+    <SectionHeader eyebrow={about.tag} title={about.title} />
+    {about.body.map((p) => <p class="reveal">{p}</p>)}
+    <div class="tags reveal">
+      {about.tags.map((t) => <span class="tag">{t}</span>)}
+    </div>
+  </div>
+  <aside class="about-aside">
+    {about.asides.map((a, i) => (
+      <blockquote class={`quote quote-${a.tone} reveal`} style={`--d:${i * 0.1}s`}>
+        <p>{a.quote}</p>
+        <cite>{a.attr}</cite>
+      </blockquote>
+    ))}
+  </aside>
+</section>
+
+<style>
+  .about { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 5rem; align-items: start; }
+  .about-body p { color: var(--text-mute); font-size: 1.1rem; line-height: 1.85; margin-bottom: 1.25rem; }
+  .tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 2rem; }
+  .tag { font-family: var(--font-ui); font-weight: 600; font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.4rem 0.85rem; border: 1px solid var(--line); color: var(--c-designation); }
+  .about-aside { display: flex; flex-direction: column; gap: 1.25rem; position: sticky; top: 90px; }
+  .quote { padding: 2rem; border-left: 2px solid var(--c-forum); transition-delay: var(--d); }
+  .quote p { font-family: var(--font-ui); font-weight: 600; font-size: 1.15rem; line-height: 1.5; text-transform: none; letter-spacing: 0; }
+  .quote-blue { background: linear-gradient(135deg, rgba(1,55,255,0.14), transparent); }
+  .quote-blue p { color: var(--c-name); }
+  .quote-pale { background: var(--bg-elev); }
+  .quote-pale p { color: var(--text); }
+  .quote cite { display: block; margin-top: 1rem; font-family: var(--font-ui); font-style: normal; font-size: 0.68rem; letter-spacing: 0.08em; color: var(--text-mute); }
+  @media (max-width: 860px) { .about { grid-template-columns: 1fr; gap: 2.5rem; } .about-aside { position: static; } }
+</style>

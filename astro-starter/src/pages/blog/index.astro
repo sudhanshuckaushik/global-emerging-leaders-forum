@@ -1,0 +1,43 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const posts = (await getCollection("blog", ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+---
+
+<BaseLayout title="Journal · Global Emerging Leaders Forum">
+  <section class="section container head">
+    <p class="t-forum">Forum Journal</p>
+    <h1 class="t-headline page-title">Notes on democratic renewal</h1>
+  </section>
+
+  <section class="container list">
+    {posts.map((post) => (
+      <a class="row reveal" href={`/blog/${post.slug}`}>
+        <span class="row-date t-designation">
+          {post.data.date.toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" })}
+        </span>
+        <span class="row-body">
+          <span class="row-title">{post.data.title}</span>
+          <span class="row-desc">{post.data.description}</span>
+        </span>
+      </a>
+    ))}
+  </section>
+</BaseLayout>
+
+<style>
+  .head { padding-block: 8rem 2rem; }
+  .page-title { font-size: clamp(2.4rem, 6vw, 4.5rem); margin-top: 0.75rem; }
+  .list { padding-bottom: 6rem; }
+  .row { display: grid; grid-template-columns: 10rem 1fr; gap: 1.5rem; padding: 2rem 0; border-top: 1px solid var(--line); transition: padding-left 0.25s var(--ease-brand); }
+  .row:last-child { border-bottom: 1px solid var(--line); }
+  .row:hover { padding-left: 0.75rem; }
+  .row-date { font-size: 0.72rem; letter-spacing: 0.1em; padding-top: 0.35rem; }
+  .row-body { display: flex; flex-direction: column; gap: 0.4rem; }
+  .row-title { font-family: var(--font-ui); font-weight: 800; font-size: 1.4rem; color: var(--c-name); }
+  .row-desc { color: var(--text-mute); }
+  @media (max-width: 620px) { .row { grid-template-columns: 1fr; gap: 0.5rem; } }
+</style>

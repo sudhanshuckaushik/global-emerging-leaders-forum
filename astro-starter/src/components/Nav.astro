@@ -1,0 +1,41 @@
+---
+import { site } from "../data/site";
+---
+
+<nav>
+  <a class="brand" href="/">{site.shortName}</a>
+  <ul>
+    {site.nav.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
+  </ul>
+  <a class="cta" href={site.ctaHref}>{site.ctaLabel}</a>
+</nav>
+
+<style>
+  nav {
+    position: fixed; inset: 0 0 auto 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 58px; padding-inline: var(--pad-x);
+    background: rgba(7, 7, 15, 0.82);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--line);
+  }
+  .brand {
+    font-family: var(--font-ui); font-weight: 800; font-size: 0.66rem;
+    letter-spacing: 0.18em; text-transform: uppercase; color: var(--c-name);
+  }
+  ul { display: flex; gap: 2rem; list-style: none; }
+  ul a {
+    font-family: var(--font-ui); font-weight: 600; font-size: 0.68rem;
+    letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-mute);
+    transition: color 0.2s var(--ease-brand);
+  }
+  ul a:hover { color: var(--c-designation); }
+  .cta {
+    font-family: var(--font-ui); font-weight: 800; font-size: 0.66rem;
+    letter-spacing: 0.1em; text-transform: uppercase; color: var(--c-forum);
+    border: 1px solid var(--c-forum); padding: 0.45rem 1.1rem;
+    transition: background 0.2s var(--ease-brand), color 0.2s var(--ease-brand);
+  }
+  .cta:hover { background: var(--c-forum); color: #fff; }
+  @media (max-width: 640px) { ul { display: none; } }
+</style>

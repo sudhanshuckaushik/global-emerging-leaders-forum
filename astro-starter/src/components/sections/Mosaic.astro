@@ -1,0 +1,24 @@
+---
+import SectionHeader from "../SectionHeader.astro";
+import DuotoneImage from "../DuotoneImage.astro";
+import { site } from "../../data/site";
+const { mosaic } = site;
+---
+
+<section class="section container mosaic">
+  <SectionHeader eyebrow={mosaic.tag} title={mosaic.title} lead={mosaic.lead} />
+  <div class="mosaic-grid reveal">
+    {mosaic.tiles.map((t) => (
+      <DuotoneImage name={t.name} alt={t.alt} class={t.tall ? "tile tile-tall" : "tile"} sizes="(max-width:700px) 50vw, 25vw" />
+    ))}
+  </div>
+  <p class="caption reveal">{mosaic.caption}</p>
+</section>
+
+<style>
+  .mosaic-grid { display: grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: 200px; gap: 8px; margin-top: 1rem; }
+  .mosaic-grid :global(.tile) { height: 100%; }
+  .mosaic-grid :global(.tile-tall) { grid-row: span 2; }
+  .caption { font-family: var(--font-ui); font-size: 0.66rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-mute); margin-top: 1.25rem; }
+  @media (max-width: 700px) { .mosaic-grid { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 160px; } }
+</style>

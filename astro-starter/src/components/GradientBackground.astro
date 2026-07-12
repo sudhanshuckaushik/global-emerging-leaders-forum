@@ -1,0 +1,165 @@
+---
+/**
+ * GradientBackground — runs the brand's animated WebGL2 gradient shader
+ * (brand-kit/shaders/linear-gradient.frag) on a full-bleed canvas.
+ *
+ * Params mirror one entry in brand-kit/presets/gradient-presets.json, so you
+ * can drop any preset straight in. Defaults to the signature blue radial.
+ * Falls back to a static CSS gradient if WebGL2 is unavailable or the user
+ * prefers reduced motion — the page never depends on the shader to be legible.
+ */
+interface Props {
+  type?: "linear" | "radial";
+  color1?: string;
+  color2?: string;
+  speed?: number;
+  scale?: number;
+  angle?: number;
+  stop1?: number;
+  stop2?: number;
+  centerX?: number;
+  centerY?: number;
+  class?: string;
+}
+const {
+  type = "radial",
+  color1 = "#B9C3FE",
+  color2 = "#0137FF",
+  speed = 2,
+  scale = 1.9,
+  angle = 90,
+  stop1 = 0,
+  stop2 = 1,
+  centerX = 0.5,
+  centerY = 0,
+  class: className = "",
+} = Astro.props;
+---
+
+<div class={`gradient-bg ${className}`} aria-hidden="true">
+  <canvas
+    data-gradient
+    data-type={type === "radial" ? "1" : "0"}
+    data-color1={color1}
+    data-color2={color2}
+    data-speed={speed}
+    data-scale={scale}
+    data-angle={angle}
+    data-stop1={stop1}
+    data-stop2={stop2}
+    data-cx={centerX}
+    data-cy={centerY}
+  ></canvas>
+</div>
+
+<style define:vars={{ c1: color1, c2: color2 }}>
+  .gradient-bg { position: absolute; inset: 0; z-index: 0; overflow: hidden; }
+  /* Static fallback painted underneath — shown until/unless the shader runs */
+  .gradient-bg::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(120% 120% at 50% 0%, var(--c1), var(--c2));
+  }
+  .gradient-bg canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+  @media (prefers-reduced-motion: reduce) {
+    .gradient-bg canvas { display: none; } /* keep the static gradient */
+  }
+</style>
+
+<script>
+  // Shader source lives in the brand-kit (single source of truth), imported raw.
+  import frag from "../../brand-kit/shaders/linear-gradient.frag?raw";
+
+  const VERT = `#version 300 es
+  in vec2 a_position;
+  void main() { gl_Position = vec4(a_position, 0.0, 1.0); }`;
+
+  const hexToRGB = (hex: string): [number, number, number] => {
+    const h = hex.replace("#", "");
+    const n = parseInt(h.length === 3 ? h.replace(/(.)/g, "$1$1") : h, 16);
+    return [((n >> 16) & 255) / 255, ((n >> 8) & 255) / 255, (n & 255) / 255];
+  };
+
+  function compile(gl: WebGL2RenderingContext, type: number, src: string) {
+    const s = gl.createShader(type)!;
+    gl.shaderSource(s, src);
+    gl.compileShader(s);
+    if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) {
+      console.warn("[gradient] shader error:", gl.getShaderInfoLog(s));
+    }
+    return s;
+  }
+
+  function initCanvas(canvas: HTMLCanvasElement) {
+    const gl = canvas.getContext("webgl2", { antialias: false, alpha: false });
+    if (!gl) return; // static CSS fallback stays visible
+
+    const prog = gl.createProgram()!;
+    gl.attachShader(prog, compile(gl, gl.VERTEX_SHADER, VERT));
+    gl.attachShader(prog, compile(gl, gl.FRAGMENT_SHADER, frag));
+    gl.linkProgram(prog);
+    gl.useProgram(prog);
+
+    // Fullscreen triangle
+    const buf = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
+    const loc = gl.getAttribLocation(prog, "a_position");
+    gl.enableVertexAttribArray(loc);
+    gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+
+    const U = (name: string) => gl.getUniformLocation(prog, name);
+    const d = canvas.dataset;
+    const c1 = hexToRGB(d.color1 || "#B9C3FE");
+    const c2 = hexToRGB(d.color2 || "#0137FF");
+
+    // Static uniforms (per brand-kit/code/renderer-notes.md uniform map)
+    gl.uniform3f(U("u_color1"), ...c1);
+    gl.uniform3f(U("u_color2"), ...c2);
+    gl.uniform1f(U("u_speed"), parseFloat(d.speed || "2"));
+    gl.uniform1f(U("u_scale"), parseFloat(d.scale || "1.9"));
+    gl.uniform1f(U("u_angle"), parseFloat(d.angle || "90"));
+    gl.uniform1f(U("u_stop1"), parseFloat(d.stop1 || "0"));
+    gl.uniform1f(U("u_stop2"), parseFloat(d.stop2 || "1"));
+    gl.uniform1f(U("u_type"), parseFloat(d.type || "1"));
+    gl.uniform1f(U("u_centerX"), parseFloat(d.cx || "0.5"));
+    gl.uniform1f(U("u_centerY"), parseFloat(d.cy || "0"));
+    const uRes = U("u_resolution");
+    const uTime = U("u_time");
+
+    const resize = () => {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const w = Math.floor(canvas.clientWidth * dpr);
+      const h = Math.floor(canvas.clientHeight * dpr);
+      if (canvas.width !== w || canvas.height !== h) {
+        canvas.width = w; canvas.height = h;
+        gl.viewport(0, 0, w, h);
+        gl.uniform2f(uRes, w, h);
+      }
+    };
+
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const start = performance.now();
+    let raf = 0;
+    const draw = (now: number) => {
+      resize();
+      gl.uniform1f(uTime, (now - start) / 1000);
+      gl.drawArrays(gl.TRIANGLES, 0, 3);
+      if (!reduce) raf = requestAnimationFrame(draw);
+    };
+    draw(start);
+
+    // Pause when offscreen to save the client's battery
+    if ("IntersectionObserver" in window && !reduce) {
+      new IntersectionObserver((es) => {
+        es.forEach((e) => {
+          if (e.isIntersecting && !raf) raf = requestAnimationFrame(draw);
+          else if (!e.isIntersecting) { cancelAnimationFrame(raf); raf = 0; }
+        });
+      }).observe(canvas);
+    }
+  }
+
+  document.querySelectorAll<HTMLCanvasElement>("canvas[data-gradient]").forEach(initCanvas);
+</script>

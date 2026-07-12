@@ -1,0 +1,30 @@
+# Sveltia CMS configuration.
+# The `fields` below MUST mirror the Zod schema in src/content/config.ts —
+# they are two views of the same content contract.
+
+backend:
+  name: github
+  # Per client: point at their repo. Editors log in with GitHub.
+  repo: your-studio/gelfd-forum
+  branch: main
+
+# Where uploaded images land in the repo, and how they're referenced in Markdown.
+media_folder: "public/images/uploads"
+public_folder: "/images/uploads"
+
+collections:
+  - name: blog
+    label: "Journal"
+    label_singular: "Post"
+    folder: "src/content/blog"
+    create: true
+    slug: "{{slug}}"
+    preview_path: "blog/{{slug}}"
+    fields:
+      - { name: title, label: "Title", widget: string }
+      - { name: description, label: "Description (max 200 chars)", widget: text }
+      - { name: date, label: "Date", widget: datetime }
+      - { name: author, label: "Author", widget: string, default: "Centre for Youth Policy" }
+      - { name: cover, label: "Cover image", widget: image, required: false }
+      - { name: draft, label: "Draft", widget: boolean, default: false }
+      - { name: body, label: "Body", widget: markdown }

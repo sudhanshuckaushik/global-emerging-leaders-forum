@@ -1,0 +1,16 @@
+This is a pre-baked instruction prompt for your AI assistant (e.g. Claude Code or Claude Projects).
+Copy and paste the text below into your prompt to instruct the AI to re-style your site to match this brand system:
+
+=========================================
+Please restyle my website to align with the Global Emerging Leaders Forum 2026 design system.
+The brand system files are located in the `brand-kit/` directory.
+
+To guide your edits, refer to the following resources in the kit:
+1. Read `brand-kit/llms.txt` first to understand the sacred design rules (duotone imagery, font pairings, color codes).
+2. Look at `brand-kit/tokens.json` for the exact mathematical specifications of colors, font styles, letter-spacing, and line-height.
+3. Check `brand-kit/code/renderer-notes.md` if you need to wire up the fragment shaders in `brand-kit/shaders/` to any WebGL canvas.
+4. Integrate the pure helper scripts in `brand-kit/code/` for duotone color derivation and cubic bezier calculations.
+5. Use the official partner SVG logos from `brand-kit/assets/logos/`.
+
+Ensure the typography rules, font weights, and spacing ratios are preserved exactly.
+=========================================

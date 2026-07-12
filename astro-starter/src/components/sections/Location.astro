@@ -1,0 +1,28 @@
+---
+import SectionHeader from "../SectionHeader.astro";
+import { site } from "../../data/site";
+const { location } = site;
+---
+
+<section class="section container location" id="location">
+  <SectionHeader eyebrow={location.tag} title={location.title} lead={location.lead} />
+  <div class="loc-grid">
+    {location.cards.map((c) => (
+      <article class={`loc-card reveal accent-${c.accent}`}>
+        <span class="loc-badge t-designation">{c.badge}</span>
+        <h3 class="loc-name">{c.name}</h3>
+        <p class="loc-text">{c.text}</p>
+      </article>
+    ))}
+  </div>
+</section>
+
+<style>
+  .loc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; max-width: 760px; margin-top: 1rem; }
+  .loc-card { padding: 2rem; background: var(--bg-elev); border-top: 3px solid var(--c-designation); }
+  .loc-card.accent-amber { border-top-color: #ffb51b; }
+  .loc-badge { font-size: 0.6rem; }
+  .loc-name { font-family: var(--font-ui); font-weight: 800; font-size: 1.2rem; color: var(--c-name); margin: 0.6rem 0 0.5rem; }
+  .loc-text { color: var(--text-mute); font-size: 0.98rem; line-height: 1.6; }
+  @media (max-width: 640px) { .loc-grid { grid-template-columns: 1fr; } }
+</style>

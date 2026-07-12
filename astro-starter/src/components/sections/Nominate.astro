@@ -1,0 +1,99 @@
+---
+import SectionHeader from "../SectionHeader.astro";
+import { site } from "../../data/site";
+const { nominate } = site;
+---
+
+<section class="section container nominate" id="nominate">
+  <SectionHeader eyebrow={nominate.tag} title={nominate.title} lead={nominate.lead} />
+  <div class="nom-grid">
+    <form class="nom-form" data-nominate data-email={site.nominateEmail}>
+      <p class="t-designation form-eyebrow">Nominate Someone</p>
+      <label>Nominee's full name
+        <input name="name" type="text" required placeholder="Who are you nominating?" />
+      </label>
+      <label>Their role / organisation
+        <input name="role" type="text" placeholder="e.g. MP, Kenya · Mayor, Accra · Researcher, Brookings" />
+      </label>
+      <label>Why should they attend?
+        <textarea name="why" rows="4" placeholder="A few sentences on why they belong in the room."></textarea>
+      </label>
+      <label>Your name &amp; email
+        <input name="from" type="text" required placeholder="So we can follow up with you" />
+      </label>
+      <button type="submit" class="nom-submit">Send nomination →</button>
+      <p class="nom-confirm" data-confirm hidden>✓ Nomination ready in your email app — send it to reach us.</p>
+    </form>
+
+    <aside class="nom-aside">
+      <p class="t-designation form-eyebrow">Who we're looking for</p>
+      <div class="criteria">
+        {nominate.criteria.map((c) => (
+          <div class="crit">
+            <span class="crit-icon">{c.icon}</span>
+            <div>
+              <h4 class="crit-title">{c.title}</h4>
+              <p class="crit-text">{c.text}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+      <div class="crit-box">
+        <p class="t-designation">{nominate.selection.eyebrow}</p>
+        <p class="crit-box-text">{nominate.selection.text}</p>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<style>
+  .nom-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; margin-top: 1rem; }
+  .form-eyebrow { font-size: 0.62rem; margin-bottom: 1.25rem; }
+  .nom-form label, .nom-form { display: flex; flex-direction: column; }
+  .nom-form label { gap: 0.5rem; margin-bottom: 1.25rem; font-family: var(--font-ui); font-size: 0.72rem; letter-spacing: 0.04em; text-transform: uppercase; color: var(--text-mute); }
+  .nom-form input, .nom-form textarea {
+    font-family: var(--font-ui); font-size: 1rem; color: var(--text);
+    background: var(--bg-elev); border: 1px solid var(--line); padding: 0.85rem 1rem; border-radius: 0;
+    transition: border-color 0.2s var(--ease-brand);
+  }
+  .nom-form input::placeholder, .nom-form textarea::placeholder { color: rgba(233,233,251,0.35); text-transform: none; letter-spacing: 0; }
+  .nom-form input:focus-visible, .nom-form textarea:focus-visible { outline: none; border-color: var(--c-designation); }
+  .nom-submit {
+    font-family: var(--font-ui); font-weight: 800; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--bg); background: var(--c-designation); border: none; padding: 0.95rem 1.5rem; cursor: pointer;
+    align-self: flex-start; transition: transform 0.15s var(--ease-brand), background 0.2s;
+  }
+  .nom-submit:hover { transform: translateY(-2px); }
+  .nom-submit:focus-visible { outline: 2px solid var(--c-name); outline-offset: 3px; }
+  .nom-confirm { margin-top: 1rem; color: var(--c-designation); font-family: var(--font-ui); font-size: 0.9rem; }
+  .nom-aside { display: flex; flex-direction: column; }
+  .crit { display: grid; grid-template-columns: 2rem 1fr; gap: 1rem; margin-bottom: 1.5rem; }
+  .crit-icon { font-size: 1.25rem; }
+  .crit-title { font-family: var(--font-ui); font-weight: 800; font-size: 1rem; color: var(--c-name); margin-bottom: 0.3rem; }
+  .crit-text { color: var(--text-mute); font-size: 0.92rem; line-height: 1.55; }
+  .crit-box { margin-top: auto; padding: 1.5rem; background: linear-gradient(135deg, rgba(255,181,27,0.12), transparent); border-left: 2px solid #ffb51b; }
+  .crit-box .t-designation { color: #ffb51b; font-size: 0.6rem; margin-bottom: 0.5rem; }
+  .crit-box-text { color: var(--text-mute); font-size: 0.92rem; line-height: 1.6; }
+  @media (max-width: 860px) { .nom-grid { grid-template-columns: 1fr; gap: 2.5rem; } }
+</style>
+
+<script>
+  // Builds a mailto: draft (matches the original site's no-backend behaviour).
+  // For a real submission pipeline, swap this for Web3Forms/Formspree later.
+  document.querySelectorAll<HTMLFormElement>("form[data-nominate]").forEach((form) => {
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const f = new FormData(form);
+      const get = (k: string) => String(f.get(k) || "").trim();
+      if (!get("name") || !get("from")) return;
+      const subject = encodeURIComponent(`Forum Nomination: ${get("name")}`);
+      const body = encodeURIComponent(
+        `Nominee: ${get("name")}\nRole/Organisation: ${get("role")}\n\n` +
+          `Why they should attend:\n${get("why")}\n\nNominated by: ${get("from")}`
+      );
+      window.location.href = `mailto:${form.dataset.email}?subject=${subject}&body=${body}`;
+      const c = form.querySelector<HTMLElement>("[data-confirm]");
+      if (c) setTimeout(() => (c.hidden = false), 400);
+    });
+  });
+</script>
