@@ -5,20 +5,39 @@ import { site } from "../../data/site";
 const { mosaic } = site;
 ---
 
+<!-- Recipe C: 3-up square photo cards with captions below (BM collections grid) -->
 <section class="section container mosaic">
   <SectionHeader eyebrow={mosaic.tag} title={mosaic.title} lead={mosaic.lead} />
-  <div class="mosaic-grid reveal">
+  <div class="grid12 mosaic-grid">
     {mosaic.tiles.map((t) => (
-      <DuotoneImage name={t.name} alt={t.alt} class={t.tall ? "tile tile-tall" : "tile"} sizes="(max-width:700px) 50vw, 25vw" />
+      <figure class="col-4 tile reveal">
+        <div class="card tile-img">
+          <DuotoneImage name={t.name} alt={t.alt} class="tile-fill" sizes="(max-width:860px) 100vw, 33vw" />
+        </div>
+        <figcaption class="tile-cap">{t.alt}</figcaption>
+      </figure>
     ))}
   </div>
   <p class="caption reveal">{mosaic.caption}</p>
 </section>
 
 <style>
-  .mosaic-grid { display: grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: 200px; gap: 8px; margin-top: 1rem; }
-  .mosaic-grid :global(.tile) { height: 100%; }
-  .mosaic-grid :global(.tile-tall) { grid-row: span 2; }
-  .caption { font-family: var(--font-ui); font-size: 0.66rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-mute); margin-top: 1.25rem; }
-  @media (max-width: 700px) { .mosaic-grid { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 160px; } }
+  .mosaic-grid { row-gap: 2.5rem; }
+  .tile { margin: 0; }
+  .tile-img { aspect-ratio: 1; }
+  .tile-img :global(.tile-fill) { position: absolute; inset: 0; }
+  .tile-cap {
+    font-family: var(--font-ui); font-weight: 600; font-size: 0.92rem;
+    color: var(--text); margin-top: 0.9rem;
+  }
+  .caption {
+    font-family: var(--font-ui); font-size: 0.66rem; letter-spacing: 0.06em;
+    text-transform: uppercase; color: var(--text-mute); margin-top: 2.5rem; text-align: center;
+  }
+  /* Photos stay a 2-up grid on mobile (overrides the global 1-col collapse) */
+  @media (max-width: 860px) {
+    .mosaic-grid { gap: 12px; row-gap: 1.5rem; }
+    .mosaic-grid .tile { grid-column: span 6; }
+    .tile-cap { font-size: 0.78rem; margin-top: 0.5rem; }
+  }
 </style>

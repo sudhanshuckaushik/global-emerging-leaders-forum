@@ -43,13 +43,19 @@
   /* Ruder Plakat is used ONLY on big headlines, with line-height 5% tighter
      than the name ratio (1.27 − 5% = 1.2065) for denser display setting. */
   --headline-lh: 1.2065;
+  /* Display kerning tuned wider than the locked name ratio (0.052em) —
+     adjust THIS token to change Ruder Plakat / Anton headline tracking. */
+  --headline-ls: 0.085em;
 
   /* ---- Motion (brand-kit/tokens.json → animation) */
   --ease-brand: cubic-bezier(0.25, 0.1, 0.25, 1);
   --dither: 0.015; /* noise amplitude to kill 8-bit banding */
 
-  /* ---- Layout rhythm */
-  --pad-x: 7vw;
-  --maxw: 1200px;
+  /* ---- Layout rhythm (card grid: 12 cols / 1280px container / 24px gutters) */
+  --pad-x: clamp(16px, 3vw, 28px);
+  --maxw: 1280px;
+  --gutter: 24px;
+  --radius-card: 24px;   /* every content card */
+  --radius-panel: 36px;  /* full-width color panels */
   --radius: 5.148%; /* brand-kit geometry.cornerRadiusFraction */
 }

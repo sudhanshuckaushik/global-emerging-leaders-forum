@@ -1,35 +1,27 @@
 ---
-import GradientBackground from "../GradientBackground.astro";
 import SectionHeader from "../SectionHeader.astro";
 import { site } from "../../data/site";
 const { outcomes } = site;
 ---
 
-<section class="section outcomes" id="outcomes">
-  <!-- COOL feature moment: preset-9 (#3352FF → #D0CFFF) -->
-  <GradientBackground type="linear" color1="#3352FF" color2="#D0CFFF" speed={2} scale={1.7} angle={0} class="out-bg" />
-  <div class="container out-inner">
-    <SectionHeader eyebrow={outcomes.tag} title={outcomes.title} lead={outcomes.lead} />
-    <div class="out-grid">
-      {outcomes.items.map((o) => (
-        <article class="out reveal">
-          <h3 class="out-title">{o.title}</h3>
-          <p class="out-text">{o.text}</p>
-        </article>
-      ))}
-    </div>
+<!-- Recipe C: 3-up × 2 numbered cards (the page stays quiet between panels) -->
+<section class="section container outcomes" id="outcomes">
+  <SectionHeader eyebrow={outcomes.tag} title={outcomes.title} lead={outcomes.lead} />
+  <div class="grid12">
+    {outcomes.items.map((o, i) => (
+      <article class="card card-pad col-4 out reveal">
+        <span class="out-num t-designation">{String(i + 1).padStart(2, "0")}</span>
+        <h3 class="out-title">{o.title}</h3>
+        <p class="out-text">{o.text}</p>
+      </article>
+    ))}
   </div>
 </section>
 
 <style>
-  .outcomes { position: relative; isolation: isolate; overflow: hidden; }
-  .outcomes :global(.out-bg) { opacity: 0.42; }
-  .outcomes::after { content: ""; position: absolute; inset: 0; z-index: 1; background: radial-gradient(120% 90% at 50% 0%, rgba(7,7,15,0.66), rgba(7,7,15,0.92)); }
-  .out-inner { position: relative; z-index: 2; }
-  .out-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; margin-top: 1rem; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.1); }
-  .out { background: rgba(7,7,15,0.6); backdrop-filter: blur(4px); padding: 2rem 1.75rem; display: flex; flex-direction: column; gap: 0.6rem; transition: background 0.25s var(--ease-brand); }
-  .out:hover { background: rgba(7,7,15,0.35); }
+  .out { display: flex; flex-direction: column; gap: 0.6rem; transition: transform 0.25s var(--ease-brand); }
+  .out:hover { transform: translateY(-4px); }
+  .out-num { font-size: 0.66rem; opacity: 0.7; }
   .out-title { font-family: var(--font-ui); font-weight: 800; font-size: 1.15rem; color: var(--c-name); }
-  .out-text { color: rgba(233,233,251,0.7); font-size: 0.95rem; line-height: 1.6; }
-  @media (max-width: 820px) { .out-grid { grid-template-columns: 1fr; } }
+  .out-text { color: var(--text-mute); font-size: 0.95rem; line-height: 1.6; }
 </style>

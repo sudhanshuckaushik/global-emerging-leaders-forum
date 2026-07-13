@@ -18,9 +18,48 @@ body {
 a { color: inherit; text-decoration: none; }
 img, svg, canvas { display: block; max-width: 100%; }
 
-/* Layout helpers */
+/* Layout helpers — card-grid system: 12 cols, 1280px container, 24px gutters.
+   The page canvas stays quiet; rounded cards carry all the visual weight. */
 .container { width: 100%; max-width: var(--maxw); margin-inline: auto; padding-inline: var(--pad-x); }
-.section { padding-block: clamp(4rem, 9vw, 8rem); }
+.section { padding-block: clamp(3rem, 6vw, 5.5rem); }
+
+.grid12 { display: grid; grid-template-columns: repeat(12, 1fr); gap: var(--gutter); }
+.col-4 { grid-column: span 4; }
+.col-6 { grid-column: span 6; }
+.col-8 { grid-column: span 8; }
+.col-12 { grid-column: span 12; }
+@media (max-width: 860px) {
+  .col-4, .col-6, .col-8 { grid-column: span 12; }
+}
+
+.card { border-radius: var(--radius-card); overflow: hidden; background: var(--bg-elev); position: relative; }
+.card-pad { padding: clamp(1.5rem, 3vw, 2.5rem); }
+.panel { border-radius: var(--radius-panel); overflow: hidden; position: relative; isolation: isolate; }
+
+/* Pill vocabulary: badges float top-center on cards; CTAs close sections */
+.pill {
+  display: inline-flex; align-items: center; gap: 0.5em;
+  font-family: var(--font-ui); font-weight: 800; font-size: 0.62rem;
+  letter-spacing: 0.1em; text-transform: uppercase; white-space: nowrap;
+  color: #fff; background: var(--pill-bg, rgba(7, 7, 15, 0.85));
+  padding: 0.42rem 0.95rem; border-radius: 999px;
+}
+.pill-float {
+  position: absolute; top: 1.25rem; left: 50%; transform: translateX(-50%);
+  z-index: 3; max-width: calc(100% - 2rem);
+}
+@media (max-width: 640px) { .pill-float { font-size: 0.55rem; } }
+.pill .dot { font-size: 0.75em; } /* inherits pill text color, like BM's ● NOW OPEN ● */
+
+.cta-row { display: flex; justify-content: center; margin-top: 2.5rem; }
+.cta-pill {
+  display: inline-block; font-family: var(--font-ui); font-weight: 800;
+  font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--bg); background: var(--c-designation);
+  padding: 0.8rem 1.6rem; border-radius: 999px;
+  transition: transform 0.15s var(--ease-brand), filter 0.2s var(--ease-brand);
+}
+.cta-pill:hover { transform: translateY(-2px); filter: brightness(1.1); }
 
 /* Brand type primitives.
    Ruder Plakat (display) is reserved for BIG HEADLINES only → .t-headline.
@@ -29,7 +68,7 @@ img, svg, canvas { display: block; max-width: 100%; }
   font-family: var(--font-display);
   color: var(--c-name);
   line-height: var(--headline-lh); /* Ruder Plakat: 5% tighter */
-  letter-spacing: var(--name-ls);
+  letter-spacing: var(--headline-ls);
   text-transform: uppercase;
 }
 .t-forum {
@@ -57,17 +96,10 @@ img, svg, canvas { display: block; max-width: 100%; }
   text-transform: uppercase;
 }
 
-/* Duotone image treatment (SACRED — brand-kit/llms.txt).
-   CSS approximation of deriveDuotone(): grayscale, then tint via the
-   derived light/dark map. WebGL path (image-gradient.frag) is exact. */
-.duotone {
-  filter: grayscale(1) contrast(1.05);
-  background: var(--duotone-dark);
-}
-.duotone > img {
-  mix-blend-mode: screen;
-  filter: grayscale(1) brightness(1.05);
-}
+/* Duotone image treatment (SACRED — brand-kit/llms.txt) lives entirely in
+   DuotoneImage.astro via the #duotone-cyan SVG filter. No rules here: a
+   parent filter (e.g. grayscale) would post-process the composited figure
+   and strip the cyan map — that bug shipped once; don't reintroduce it. */
 
 /* Scroll reveal (progressive enhancement; visible by default if no JS) */
 .reveal { opacity: 1; transform: none; }

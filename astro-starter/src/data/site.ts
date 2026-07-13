@@ -7,7 +7,7 @@ export const site = {
   name: "Global Emerging Leaders Forum on Democracy",
   shortName: "GELFD · 2026",
   dates: "July 27–30, 2026",
-  location: "Goa, India",
+  venue: "Goa, India", // NOTE: `location` is taken by the Location section below
   nominateEmail: "sudhanshu@centreforyouthpolicy.org",
 
   ctaLabel: "Nominate",
@@ -75,14 +75,14 @@ export const site = {
     title: "What This Looks Like in Practice",
     lead: "The forum grows out of CYP's existing convening work — including the annual Youth & Democracy Conference, co-hosted with Konrad-Adenauer-Stiftung.",
     tiles: [
-      { name: "photo-21511553", alt: "Conference plenary", tall: true },
+      { name: "photo-21511553", alt: "Conference plenary" },
       { name: "photo-b98562d3", alt: "Delegates in discussion" },
       { name: "photo-dd7ad9a5", alt: "Speaker addressing the room" },
       { name: "photo-b8f07b2e", alt: "Roundtable conversation" },
       { name: "photo-08d30e90", alt: "Participants networking" },
       { name: "photo-f147dba4", alt: "Panel session" },
-      { name: "photo-345752b5", alt: "Delegates outdoors", tall: true },
-      { name: "photo-89cf5da0", alt: "Group of young leaders" },
+      { name: "photo-345752b5", alt: "Delegates outdoors" },
+      { name: "photo-d43bec8a", alt: "Youth & Democracy Conference · Marwadi University" },
     ],
     caption: "Youth & Democracy Conference 2026 · Marwadi University, India · Co-hosted with Konrad-Adenauer-Stiftung",
   },

@@ -4,13 +4,14 @@ import { site } from "../../data/site";
 const { format } = site;
 ---
 
+<!-- Recipe B (8+4): wide day-by-day card + narrow principles card -->
 <section class="section container format" id="format">
   <SectionHeader eyebrow={format.tag} title={format.title} lead={format.lead} />
-  <div class="format-grid">
-    <ol class="days">
+  <div class="grid12">
+    <ol class="card card-pad col-8 days reveal">
       {format.days.map((d) => (
-        <li class="day reveal">
-          <span class="day-label t-designation">{d.label}</span>
+        <li class="day">
+          <span class="pill day-pill">{d.label}</span>
           <div class="day-content">
             <h3 class="day-theme">{d.theme}</h3>
             <p class="day-text" set:html={d.text} />
@@ -18,9 +19,9 @@ const { format } = site;
         </li>
       ))}
     </ol>
-    <div class="principles">
+    <div class="card card-pad col-4 principles reveal">
       {format.principles.map((p) => (
-        <div class="principle reveal">
+        <div class="principle">
           <span class="p-icon">{p.icon}</span>
           <div>
             <h4 class="p-title">{p.title}</h4>
@@ -33,18 +34,17 @@ const { format } = site;
 </section>
 
 <style>
-  .format-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; margin-top: 1rem; }
-  .days { list-style: none; }
-  .day { display: grid; grid-template-columns: 3.5rem 1fr; gap: 1.25rem; padding: 1.5rem 0; border-top: 1px solid var(--line); }
-  .day:last-child { border-bottom: 1px solid var(--line); }
-  .day-label { font-size: 0.72rem; padding-top: 0.3rem; }
+  .days { list-style: none; display: flex; flex-direction: column; justify-content: space-between; }
+  .day { display: grid; grid-template-columns: 4rem 1fr; gap: 1.25rem; padding: 1.4rem 0; border-top: 1px solid var(--line); align-items: start; }
+  .day:first-child { border-top: none; padding-top: 0; }
+  .day:last-child { padding-bottom: 0; }
+  .day-pill { --pill-bg: rgba(0, 229, 255, 0.14); color: var(--c-designation); font-size: 0.58rem; padding: 0.3rem 0.7rem; }
   .day-theme { font-family: var(--font-ui); font-weight: 800; font-size: 1.15rem; color: var(--c-name); margin-bottom: 0.35rem; }
   .day-text { color: var(--text-mute); font-size: 0.95rem; line-height: 1.6; }
   .day-text :global(em) { color: var(--c-designation); font-style: italic; }
-  .principles { display: flex; flex-direction: column; gap: 1.25rem; }
-  .principle { display: grid; grid-template-columns: 2rem 1fr; gap: 1rem; padding: 1.25rem; background: var(--bg-elev); border-left: 2px solid var(--c-designation); }
+  .principles { display: flex; flex-direction: column; gap: 1.5rem; }
+  .principle { display: grid; grid-template-columns: 2rem 1fr; gap: 1rem; }
   .p-icon { font-size: 1.25rem; }
   .p-title { font-family: var(--font-ui); font-weight: 800; font-size: 1rem; color: var(--text); margin-bottom: 0.3rem; }
   .p-text { color: var(--text-mute); font-size: 0.92rem; line-height: 1.55; }
-  @media (max-width: 860px) { .format-grid { grid-template-columns: 1fr; gap: 2.5rem; } }
 </style>

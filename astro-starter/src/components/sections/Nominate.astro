@@ -1,80 +1,89 @@
 ---
+import GradientBackground from "../GradientBackground.astro";
 import SectionHeader from "../SectionHeader.astro";
 import { site } from "../../data/site";
 const { nominate } = site;
 ---
 
+<!-- Recipe D: color panel #2 — the nomination CTA (BM's membership-panel move) -->
 <section class="section container nominate" id="nominate">
-  <SectionHeader eyebrow={nominate.tag} title={nominate.title} lead={nominate.lead} />
-  <div class="nom-grid">
-    <form class="nom-form" data-nominate data-email={site.nominateEmail}>
-      <p class="t-designation form-eyebrow">Nominate Someone</p>
-      <label>Nominee's full name
-        <input name="name" type="text" required placeholder="Who are you nominating?" />
-      </label>
-      <label>Their role / organisation
-        <input name="role" type="text" placeholder="e.g. MP, Kenya · Mayor, Accra · Researcher, Brookings" />
-      </label>
-      <label>Why should they attend?
-        <textarea name="why" rows="4" placeholder="A few sentences on why they belong in the room."></textarea>
-      </label>
-      <label>Your name &amp; email
-        <input name="from" type="text" required placeholder="So we can follow up with you" />
-      </label>
-      <button type="submit" class="nom-submit">Send nomination →</button>
-      <p class="nom-confirm" data-confirm hidden>✓ Nomination ready in your email app — send it to reach us.</p>
-    </form>
+  <div class="panel nom-panel reveal">
+    <GradientBackground type="linear" color1="#3352FF" color2="#D0CFFF" speed={2} scale={1.7} angle={0} class="nom-bg" />
+    <div class="nom-scrim" aria-hidden="true"></div>
+    <div class="nom-inner">
+      <SectionHeader eyebrow={nominate.tag} title={nominate.title} lead={nominate.lead} />
+      <div class="nom-grid">
+        <form class="card card-pad nom-form" data-nominate data-email={site.nominateEmail}>
+          <p class="t-designation form-eyebrow">Nominate Someone</p>
+          <label>Nominee's full name
+            <input name="name" type="text" required placeholder="Who are you nominating?" />
+          </label>
+          <label>Their role / organisation
+            <input name="role" type="text" placeholder="e.g. MP, Kenya · Mayor, Accra · Researcher, Brookings" />
+          </label>
+          <label>Why should they attend?
+            <textarea name="why" rows="4" placeholder="A few sentences on why they belong in the room."></textarea>
+          </label>
+          <label>Your name &amp; email
+            <input name="from" type="text" required placeholder="So we can follow up with you" />
+          </label>
+          <button type="submit" class="cta-pill nom-submit">Send nomination →</button>
+          <p class="nom-confirm" data-confirm hidden>✓ Nomination ready in your email app — send it to reach us.</p>
+        </form>
 
-    <aside class="nom-aside">
-      <p class="t-designation form-eyebrow">Who we're looking for</p>
-      <div class="criteria">
-        {nominate.criteria.map((c) => (
-          <div class="crit">
-            <span class="crit-icon">{c.icon}</span>
-            <div>
-              <h4 class="crit-title">{c.title}</h4>
-              <p class="crit-text">{c.text}</p>
-            </div>
+        <aside class="nom-aside">
+          <p class="t-designation form-eyebrow">Who we're looking for</p>
+          <div class="criteria">
+            {nominate.criteria.map((c) => (
+              <div class="crit">
+                <span class="crit-icon">{c.icon}</span>
+                <div>
+                  <h4 class="crit-title">{c.title}</h4>
+                  <p class="crit-text">{c.text}</p>
+                </div>
+              </div>
+            ))}
           </div>
-        ))}
+          <div class="card card-pad crit-box">
+            <p class="t-designation">{nominate.selection.eyebrow}</p>
+            <p class="crit-box-text">{nominate.selection.text}</p>
+          </div>
+        </aside>
       </div>
-      <div class="crit-box">
-        <p class="t-designation">{nominate.selection.eyebrow}</p>
-        <p class="crit-box-text">{nominate.selection.text}</p>
-      </div>
-    </aside>
+    </div>
   </div>
 </section>
 
 <style>
-  .nom-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; margin-top: 1rem; }
+  .nom-panel :global(.nom-bg) { opacity: 0.45; }
+  .nom-scrim { position: absolute; inset: 0; z-index: 1; background: radial-gradient(130% 100% at 50% 0%, rgba(7,7,15,0.6), rgba(7,7,15,0.88)); }
+  .nom-inner { position: relative; z-index: 2; padding: clamp(2.5rem, 5vw, 4rem); }
+  .nom-inner :global(.lead) { color: rgba(233,233,251,0.75); }
+  .nom-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gutter); }
+  .nom-form { background: rgba(7,7,15,0.62); backdrop-filter: blur(6px); }
   .form-eyebrow { font-size: 0.62rem; margin-bottom: 1.25rem; }
   .nom-form label, .nom-form { display: flex; flex-direction: column; }
   .nom-form label { gap: 0.5rem; margin-bottom: 1.25rem; font-family: var(--font-ui); font-size: 0.72rem; letter-spacing: 0.04em; text-transform: uppercase; color: var(--text-mute); }
   .nom-form input, .nom-form textarea {
     font-family: var(--font-ui); font-size: 1rem; color: var(--text);
-    background: var(--bg-elev); border: 1px solid var(--line); padding: 0.85rem 1rem; border-radius: 0;
+    background: rgba(14,14,28,0.85); border: 1px solid var(--line); padding: 0.85rem 1rem;
+    border-radius: 12px;
     transition: border-color 0.2s var(--ease-brand);
   }
   .nom-form input::placeholder, .nom-form textarea::placeholder { color: rgba(233,233,251,0.35); text-transform: none; letter-spacing: 0; }
   .nom-form input:focus-visible, .nom-form textarea:focus-visible { outline: none; border-color: var(--c-designation); }
-  .nom-submit {
-    font-family: var(--font-ui); font-weight: 800; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase;
-    color: var(--bg); background: var(--c-designation); border: none; padding: 0.95rem 1.5rem; cursor: pointer;
-    align-self: flex-start; transition: transform 0.15s var(--ease-brand), background 0.2s;
-  }
-  .nom-submit:hover { transform: translateY(-2px); }
+  .nom-submit { border: none; cursor: pointer; align-self: flex-start; }
   .nom-submit:focus-visible { outline: 2px solid var(--c-name); outline-offset: 3px; }
   .nom-confirm { margin-top: 1rem; color: var(--c-designation); font-family: var(--font-ui); font-size: 0.9rem; }
   .nom-aside { display: flex; flex-direction: column; }
   .crit { display: grid; grid-template-columns: 2rem 1fr; gap: 1rem; margin-bottom: 1.5rem; }
   .crit-icon { font-size: 1.25rem; }
   .crit-title { font-family: var(--font-ui); font-weight: 800; font-size: 1rem; color: var(--c-name); margin-bottom: 0.3rem; }
-  .crit-text { color: var(--text-mute); font-size: 0.92rem; line-height: 1.55; }
-  .crit-box { margin-top: auto; padding: 1.5rem; background: linear-gradient(135deg, rgba(255,181,27,0.12), transparent); border-left: 2px solid #ffb51b; }
+  .crit-text { color: rgba(233,233,251,0.7); font-size: 0.92rem; line-height: 1.55; }
+  .crit-box { margin-top: auto; background: rgba(255,181,27,0.1); }
   .crit-box .t-designation { color: #ffb51b; font-size: 0.6rem; margin-bottom: 0.5rem; }
-  .crit-box-text { color: var(--text-mute); font-size: 0.92rem; line-height: 1.6; }
-  @media (max-width: 860px) { .nom-grid { grid-template-columns: 1fr; gap: 2.5rem; } }
+  .crit-box-text { color: rgba(233,233,251,0.75); font-size: 0.92rem; line-height: 1.6; }
+  @media (max-width: 860px) { .nom-grid { grid-template-columns: 1fr; } }
 </style>
 
 <script>

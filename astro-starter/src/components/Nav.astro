@@ -32,10 +32,10 @@ import { site } from "../data/site";
   ul a:hover { color: var(--c-designation); }
   .cta {
     font-family: var(--font-ui); font-weight: 800; font-size: 0.66rem;
-    letter-spacing: 0.1em; text-transform: uppercase; color: var(--c-forum);
-    border: 1px solid var(--c-forum); padding: 0.45rem 1.1rem;
-    transition: background 0.2s var(--ease-brand), color 0.2s var(--ease-brand);
+    letter-spacing: 0.1em; text-transform: uppercase; color: #fff;
+    background: var(--c-forum); border-radius: 999px; padding: 0.5rem 1.2rem;
+    transition: transform 0.15s var(--ease-brand), filter 0.2s var(--ease-brand);
   }
-  .cta:hover { background: var(--c-forum); color: #fff; }
+  .cta:hover { transform: translateY(-1px); filter: brightness(1.12); }
   @media (max-width: 640px) { ul { display: none; } }
 </style>

@@ -2,54 +2,107 @@
 import GradientBackground from "./GradientBackground.astro";
 import { site, LOGO_META } from "../data/site";
 const { hero } = site;
+
+// Ticker copy composed from existing content fields — one loop's worth,
+// duplicated in markup so the CSS marquee can wrap seamlessly.
+const tickerItems = [site.name, site.dates, site.venue, "By invitation", "Off the record", "Non-partisan"];
 ---
 
-<header class="hero">
-  <!-- Signature: animated brand shader (cool blue radial, preset-4) -->
-  <GradientBackground type="radial" color1="#B9C3FE" color2="#0137FF" speed={2} scale={1.9} centerY={0} />
-
-  <div class="hero-top container">
-    <div class="hero-logos">
-      {site.partners.map((p) => (
-        <img class="hero-logo" src={LOGO_META[p].src} alt={LOGO_META[p].alt} height="26" loading="eager" />
+<header class="hero container">
+  <!-- BM-style ticker: rounded marquee bar between nav and hero card -->
+  <div class="ticker reveal" aria-label={tickerItems.join(" · ")}>
+    <div class="ticker-track" aria-hidden="true">
+      {[0, 1].map(() => (
+        <span class="ticker-run">
+          {tickerItems.map((t) => (
+            <span class="ticker-item"><span class="tick-dot">●</span>{t}</span>
+          ))}
+        </span>
       ))}
     </div>
-    <span class="hero-pill t-designation">{hero.pill}</span>
   </div>
 
-  <div class="hero-inner container">
-    <p class="t-forum reveal">{hero.lockup}</p>
-    <h1 class="t-headline reveal">{hero.title}</h1>
-    <p class="hero-desc reveal">{hero.description}</p>
+  <!-- Recipe A: full-container rounded hero card, text centered on the image -->
+  <div class="hero-card card">
+    <GradientBackground type="radial" color1="#B9C3FE" color2="#0137FF" speed={2} scale={1.9} centerY={0} />
+    <div class="hero-scrim" aria-hidden="true"></div>
+    <span class="pill pill-float" style="--pill-bg: var(--c-forum)">
+      <span class="dot">●</span>{hero.pill}<span class="dot">●</span>
+    </span>
+    <div class="hero-inner">
+      <p class="t-forum reveal">{hero.lockup}</p>
+      <h1 class="t-headline reveal">{hero.title}</h1>
+      <p class="hero-desc reveal">{hero.subtitle}</p>
+    </div>
+  </div>
 
-    <div class="hero-meta reveal">
-      {hero.meta.map((m) => (
-        <div class="meta-item">
-          <span class="meta-val t-name">{m.value}</span>
-          <span class="meta-key t-designation">{m.key}</span>
-        </div>
+  <!-- Meta strip below the card: stats + partner logos -->
+  <div class="hero-meta reveal">
+    {hero.meta.map((m) => (
+      <div class="meta-item">
+        <span class="meta-val t-name">{m.value}</span>
+        <span class="meta-key t-designation">{m.key}</span>
+      </div>
+    ))}
+    <div class="hero-logos">
+      {site.partners.map((p) => (
+        <img class="hero-logo" src={LOGO_META[p].src} alt={LOGO_META[p].alt} height="24" loading="eager" />
       ))}
     </div>
   </div>
 </header>
 
 <style>
-  .hero { position: relative; min-height: 100svh; display: flex; align-items: flex-end; padding-block: 8rem 5rem; overflow: hidden; isolation: isolate; }
-  .hero::after { content: ""; position: absolute; inset: 0; z-index: 1; background: linear-gradient(to top, rgba(7,7,15,0.94) 0%, rgba(7,7,15,0.4) 45%, rgba(7,7,15,0.15) 100%); }
+  .hero { padding-top: calc(58px + 1.25rem); }
 
-  .hero-top { position: absolute; top: 0; left: 50%; transform: translateX(-50%); z-index: 3; padding-top: 5.5rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
-  .hero-logos { display: flex; align-items: center; gap: 1.75rem; opacity: 0; animation: fade 1s 0.2s forwards; }
-  .hero-logo { height: 26px; width: auto; filter: brightness(0) invert(1); opacity: 0.85; }
-  .hero-pill { font-size: 0.6rem; border: 1px solid rgba(0,229,255,0.4); padding: 0.4rem 0.9rem; opacity: 0; animation: fade 1s 0.35s forwards; }
-  @keyframes fade { to { opacity: 1; } }
+  .ticker {
+    overflow: hidden; border-radius: 999px; background: var(--bg-elev);
+    border: 1px solid var(--line); margin-bottom: var(--gutter);
+  }
+  .ticker-track { display: flex; width: max-content; animation: ticker 36s linear infinite; }
+  .ticker-run { display: flex; }
+  .ticker-item {
+    display: inline-flex; align-items: center; gap: 0.7em; padding: 0.6rem 0;
+    margin-right: 2.5rem; font-family: var(--font-ui); font-weight: 600;
+    font-size: 0.66rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--c-designation); white-space: nowrap;
+  }
+  .tick-dot { color: var(--c-forum); font-size: 0.8em; }
+  @keyframes ticker { to { transform: translateX(-50%); } }
+  @media (prefers-reduced-motion: reduce) { .ticker-track { animation: none; } }
 
-  .hero-inner { position: relative; z-index: 2; }
-  .hero .t-forum { font-size: clamp(0.85rem, 1.4vw, 1.05rem); margin-bottom: 1.5rem; }
-  .hero .t-headline { font-size: clamp(3rem, 9vw, 8rem); max-width: 15ch; margin-bottom: 1.25rem; }
-  .hero-desc { font-family: var(--font-ui); color: var(--text); font-size: clamp(1rem, 1.6vw, 1.25rem); max-width: 48ch; margin-top: 1.5rem; }
-  .hero-meta { display: flex; flex-wrap: wrap; gap: 3rem; margin-top: 3.5rem; padding-top: 2rem; border-top: 1px solid var(--line); }
-  .meta-item { display: flex; flex-direction: column; gap: 0.4rem; }
-  .meta-val { font-size: 2rem; line-height: 1; }
-  .meta-key { font-size: 0.6rem; letter-spacing: 0.15em; }
-  @media (max-width: 640px) { .hero-logos { gap: 1rem; } .hero-logo { height: 20px; } }
+  .hero-card {
+    min-height: clamp(480px, 46vw, 640px);
+    display: flex; align-items: center; justify-content: center;
+  }
+  /* Scrim keeps centered text legible over the animated gradient */
+  .hero-scrim {
+    position: absolute; inset: 0; z-index: 1;
+    background: radial-gradient(90% 90% at 50% 60%, rgba(7,7,15,0.55), rgba(7,7,15,0.15));
+  }
+  .hero-inner {
+    position: relative; z-index: 2; text-align: center;
+    padding: 4.5rem clamp(1.5rem, 5vw, 4rem);
+    display: flex; flex-direction: column; align-items: center;
+  }
+  .hero .t-forum { font-size: clamp(0.72rem, 1.1vw, 0.9rem); margin-bottom: 1.25rem; }
+  .hero .t-headline { font-size: clamp(2.6rem, 7vw, 6rem); max-width: 16ch; }
+  .hero-desc {
+    font-family: var(--font-ui); color: var(--text);
+    font-size: clamp(0.98rem, 1.5vw, 1.15rem); max-width: 44ch; margin-top: 1.5rem;
+  }
+
+  .hero-meta {
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: center;
+    gap: 2.5rem 3.5rem; padding: 2rem 0 0.5rem;
+  }
+  .meta-item { display: flex; flex-direction: column; align-items: center; gap: 0.4rem; }
+  .meta-val { font-size: 1.8rem; line-height: 1; }
+  .meta-key { font-size: 0.58rem; letter-spacing: 0.15em; }
+  .hero-logos { display: flex; align-items: center; gap: 1.75rem; }
+  .hero-logo { height: 24px; width: auto; filter: brightness(0) invert(1); opacity: 0.8; }
+  @media (max-width: 640px) {
+    .hero-logos { width: 100%; justify-content: center; gap: 1.25rem; }
+    .hero-logo { height: 18px; }
+  }
 </style>

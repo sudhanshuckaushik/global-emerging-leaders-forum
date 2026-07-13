@@ -5,46 +5,44 @@ import { site } from "../../data/site";
 const { why } = site;
 ---
 
-<section class="section why" id="why">
-  <DuotoneImage name={why.heroPhoto.name} alt={why.heroPhoto.alt} class="why-hero" sizes="100vw" />
-  <div class="container why-inner">
-    <SectionHeader eyebrow={why.tag} title={why.title} />
-    <div class="why-grid">
-      <div class="why-body">
-        {why.body.slice(0, 2).map((p) => <p class="reveal">{p}</p>)}
-        <p class="pull reveal">{why.pull}</p>
-        {why.body.slice(2).map((p) => <p class="reveal">{p}</p>)}
-      </div>
-      <div class="why-stats">
-        {why.stats.map((s) => (
-          <div class="stat reveal">
-            <div class="stat-num t-name">{s.num}</div>
-            <div class="stat-label t-designation">{s.label}</div>
-            <p class="stat-note">{s.note}</p>
-          </div>
-        ))}
-        <figure class="stat-photo reveal">
-          <DuotoneImage name={why.statPhoto.name} alt={why.statPhoto.alt} sizes="(max-width:860px) 100vw, 40vw" />
-          <figcaption>{why.statCaption}</figcaption>
-        </figure>
-      </div>
+<!-- Recipe B flipped (4+8): portrait photo card + wide text card, then 3-up stats -->
+<section class="section container why" id="why">
+  <div class="grid12">
+    <div class="col-4 why-photo card reveal">
+      <DuotoneImage name={why.heroPhoto.name} alt={why.heroPhoto.alt} class="why-img" sizes="(max-width:860px) 100vw, 33vw" />
     </div>
+    <div class="card card-pad col-8 why-body reveal">
+      <SectionHeader eyebrow={why.tag} title={why.title} align="start" />
+      {why.body.slice(0, 2).map((p) => <p>{p}</p>)}
+      <p class="pull">{why.pull}</p>
+      {why.body.slice(2).map((p) => <p>{p}</p>)}
+    </div>
+  </div>
+
+  <div class="grid12 why-stats">
+    {why.stats.map((s) => (
+      <div class="card card-pad col-4 stat reveal">
+        <div class="stat-num t-name">{s.num}</div>
+        <div class="stat-label t-designation">{s.label}</div>
+        <p class="stat-note">{s.note}</p>
+      </div>
+    ))}
   </div>
 </section>
 
 <style>
-  .why { position: relative; padding-block: 0; }
-  .why-hero { height: 42vh; min-height: 300px; }
-  .why-inner { padding-block: clamp(3.5rem, 7vw, 6rem); }
-  .why-grid { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 4rem; }
-  .why-body p { color: var(--text-mute); font-size: 1.08rem; line-height: 1.85; margin-bottom: 1.25rem; }
-  .pull { font-family: var(--font-ui) !important; font-weight: 700 !important; color: var(--c-name) !important; font-size: 1.4rem !important; line-height: 1.45 !important; margin: 1.5rem 0 !important; text-transform: none; }
-  .why-stats { display: flex; flex-direction: column; gap: 1.5rem; }
-  .stat { padding-bottom: 1.25rem; border-bottom: 1px solid var(--line); }
+  .why-photo { min-height: 420px; }
+  /* Fill the card: DuotoneImage's figure needs explicit height to cover */
+  .why-photo :global(.why-img) { position: absolute; inset: 0; }
+  .why-body :global(.sh) { margin-bottom: 1.5rem; }
+  .why-body p { color: var(--text-mute); font-size: 1.05rem; line-height: 1.8; margin-bottom: 1.15rem; }
+  .pull {
+    font-family: var(--font-ui); font-weight: 700; color: var(--c-name);
+    font-size: 1.35rem; line-height: 1.45; margin: 1.5rem 0;
+  }
+  .why-stats { margin-top: var(--gutter); }
   .stat-num { font-size: 2.6rem; line-height: 1; }
-  .stat-label { font-size: 0.66rem; margin: 0.5rem 0 0.4rem; }
+  .stat-label { font-size: 0.66rem; margin: 0.6rem 0 0.5rem; }
   .stat-note { color: var(--text-mute); font-size: 0.9rem; line-height: 1.55; }
-  .stat-photo { margin: 0; }
-  .stat-photo figcaption { font-family: var(--font-ui); font-size: 0.62rem; letter-spacing: 0.06em; color: var(--text-mute); margin-top: 0.6rem; text-transform: uppercase; }
-  @media (max-width: 860px) { .why-grid { grid-template-columns: 1fr; gap: 2.5rem; } }
+  @media (max-width: 860px) { .why-photo { min-height: 320px; } }
 </style>
