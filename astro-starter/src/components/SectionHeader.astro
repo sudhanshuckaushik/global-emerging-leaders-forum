@@ -29,7 +29,9 @@ const { eyebrow, title, lead, align = "center" } = Astro.props;
   .sh-center { align-items: center; text-align: center; }
   .sh-start { align-items: flex-start; text-align: left; }
   .eyebrow { font-size: 0.62rem; }
-  .title { font-size: clamp(1.9rem, 4.5vw, 3.4rem); }
+  /* +1.2rem offset keeps the fluid term alive on phones — a bare vw floor
+     bottomed out at ~30px on 390px screens while body text stayed 17px. */
+  .title { font-size: clamp(2.2rem, 3vw + 1.2rem, 3.4rem); }
   .sh-start .title { max-width: 20ch; }
   .sh-center .title { max-width: 28ch; }
   /* Dots flow inline with the text so multi-line titles keep them attached

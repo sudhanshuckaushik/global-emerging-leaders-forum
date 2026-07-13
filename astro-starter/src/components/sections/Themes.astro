@@ -9,7 +9,6 @@ const { themes } = site;
 <section class="section container themes" id="themes">
   <div class="panel themes-panel reveal">
     <GradientBackground type="linear" color1="#660036" color2="#FF3A33" speed={3} scale={1.8} angle={90} class="themes-bg" />
-    <div class="themes-scrim" aria-hidden="true"></div>
     <div class="themes-inner">
       <SectionHeader eyebrow={themes.tag} title={themes.title} lead={themes.lead} />
       <div class="themes-grid">
@@ -25,8 +24,7 @@ const { themes } = site;
 </section>
 
 <style>
-  .themes-panel :global(.themes-bg) { opacity: 0.55; }
-  .themes-scrim { position: absolute; inset: 0; z-index: 1; background: radial-gradient(120% 80% at 50% 0%, rgba(7,7,15,0.55), rgba(7,7,15,0.86)); }
+  /* Full-colour shader — no scrim; the translucent cards carry legibility */
   .themes-inner { position: relative; z-index: 2; padding: clamp(2.5rem, 5vw, 4rem); }
   .themes-inner :global(.lead) { color: rgba(255,255,255,0.75); }
   .themes-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--gutter); }
